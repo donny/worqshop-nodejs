@@ -1,0 +1,8 @@
+## Python specific files
+*.pyc
+
+## Generic files
+*~
+*.lock
+*.DS_Store
+*.swp

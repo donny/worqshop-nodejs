@@ -1,0 +1,76 @@
+{% extends "../base.html" %}
+
+{% block title %}Reference{% endblock %}
+
+{% block content %}
+
+<h2>Reference</h2>
+
+<br/>
+
+<h3>Usage:</h3>
+
+<p>All API calls must be made using the HTTP POST method.</p>
+
+<h3>Endpoint:</h3>
+
+<p><code>https://worqshop.appspot.com/api</code></p>
+
+<h3>Parameter:</h3>
+
+<p>All API calls require the <code>key</code> parameter and some may need the <code>arg</code> parameter.</p>
+
+<h3>Response:</h3>
+
+<p>The API response is a JSON object with an HTTP status code that can be any of the following:</p>
+
+<ul>
+<li><code>200</code> : OK</li>
+<li><code>400</code> : Bad Request</li>
+<li><code>401</code> : Unauthorized</li>
+<li><code>500</code> : Internal Server Error</li>
+</ul>
+
+<hr/>
+
+<h3>/refresh_api_key</h3>
+
+<p>Change the API key to a new one. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/refresh_api_key \
+-F "key=old_api_key"
+{"result": "new_api_key"}
+</pre>
+
+<h3>/change_public_key</h3>
+
+<p>Change the public key to a new one. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/change_public_key \
+-F "key=api_key" -F "arg=&lt;/path/to/id_rsa.pub"
+{"result": "OK"}
+</pre>
+
+<h3>/create_application</h3>
+
+<p>Create a new application. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/create_application \
+-F "key=api_key" -F "arg=app_name"
+{"result": "port_number"}
+</pre>
+
+<h3>/destroy_application</h3>
+
+<p>Destroy an application. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/destroy_application \
+-F "key=api_key" -F "arg=app_name"
+{"result": "OK"}
+</pre>
+
+{% endblock %}

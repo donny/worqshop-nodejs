@@ -1,0 +1,20 @@
+{% extends "../base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% if user %}
+<p style="text-align:center;">API key:<br/><code>{{ dev_user.apikey }}</code></p>
+<p style="text-align:center;">Public key:<br/><code>{{ dev_user.publickey }}</code></p>
+<p style="text-align:center;">Applications:<br/></p>
+
+{% for app in dev_user_apps %}
+<p style="text-align:center;">Name: <code>{{ app.name }}</code> Port: <code>{{ app.port }}</code></p>
+{% endfor %}
+
+{% else %}
+<p style="text-align:center;">You need to sign in before you can see the API key.</p>
+{% endif %}
+
+{% endblock %}

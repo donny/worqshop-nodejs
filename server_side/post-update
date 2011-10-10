@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+echo "    worqshop: (1/5) initializing..."
+
+currentdir=`pwd`
+
+appname=$currentdir # e.g. /srv/gitosis/repositories/appname.git
+appname=${appname##*/} # e.g. appname.git
+appname=${appname%%.*} # e.g. appname
+
+appinfo=`cat /home/donny/apps-info/$appname`
+
+apphost=${appinfo%%:*}
+appport=${appinfo##*:}
+
+#echo $appname
+#echo $appinfo
+#echo $apphost
+#echo $appport
+
+echo "    worqshop: (2/5) preparing..."
+
+if [ -d /srv/gitosis/applications/$appname ]; then
+	cd /srv/gitosis/applications/$appname ; env -i git pull -q
+else
+	env -i git clone -q -l --depth 1 . /srv/gitosis/applications/$appname
+fi
+
+cd /srv/gitosis/applications/
+tar czf $appname.tar.gz $appname
+
+echo "    worqshop: (3/5) transferring..."
+
+scp -q -i /srv/gitosis/worqshop.pem /srv/gitosis/applications/$appname.tar.gz ec2-user@$apphost:apps/
+
+echo "    worqshop: (4/5) running..."
+
+ssh -q -i /srv/gitosis/worqshop.pem ec2-user@$apphost "(cd apps ; tar xzf $appname.tar.gz) ; ./daemon.py restart $appname > /dev/null"
+
+echo "    worqshop: (5/5) finalizing..."
+
+cd $currentdir
+exec git-update-server-info

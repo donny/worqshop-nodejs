@@ -1,0 +1,78 @@
+{% extends "../base.html" %}
+
+{% block title %}Support{% endblock %}
+
+{% block content %}
+
+<h2>Support</h2>
+
+<br/>
+
+<h3>What are the steps to deploy an application?</h3>
+
+<p>1. Sign in on the site to get your API key.</p>
+
+<p>2. Upload your public key. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/change_public_key \
+-F "key=abcdef" -F "arg=&lt;/Users/donny/.ssh/id_rsa.pub"
+{"result": "OK"}
+</pre>
+
+<p>3. Register for a new application, and remember the port number assigned for the application. For example:</p>
+
+<pre>
+$ curl https://worqshop.appspot.com/api/create_application \
+-F "key=abcdef" -F "arg=helloworld"
+{"result": "5555"}
+</pre>
+
+<p>4. Prepare the directory and the files for the application. For example:</p>
+
+<pre>
+$ mkdir helloworld ; cd helloworld
+$ touch main.js
+$ git init
+$ git add .
+$ git commit -m "Initial commit."
+$ git remote add worqshop git@worqshop.com:helloworld.git
+</pre>
+
+<p>5. Edit the <code>main.js</code> file. Worqshop will execute this file. For example:</p>
+
+<pre>
+$ cat main.js
+var http = require('http');
+http.createServer(function (req, res) {
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end('Hello World\n' + req.url);
+}).listen(5555, "0.0.0.0");
+console.log('Server running at http://0.0.0.0:5555/');
+</pre>
+
+<p>You need to set the application to listen on the port number assigned for the application (in this example, 5555).</p> 
+
+<p>6. Commit the code and upload it to Worqshop.</p>
+
+<pre>
+$ git add .
+$ git commit -m "Another commit."
+$ git push worqshop master
+</pre>
+
+<p>7. Open a web browser and visit your web application. In this example, go to <code>http://worqshop.appspot.com/app/helloworld</code>.</p>
+
+<h3>How many applications that I can create?</h3>
+
+<p>Each user is allowed to create 3 applications. However, I haven't finished implementing the application deletion function. Thus, your application quota does not decrease even if you delete an application.</p>
+
+<h3>How many applications does Worqshop support?</h3>
+
+<p>Worqshop has been configured to support only 1000 applications. The reason is simply not to overwhelm the deployment server. I may be able to increase the limit once I have configured the server to use better machines.</p>
+
+<h3>How do I pay you?</h3>
+
+<p>No, please don't. Worqshop is free to use and it may go down. Accepting payment implies responsibilities, and I am not ready yet to have those responsibilities. However, if you are serious to have a private server, let me know, and I'll see what I can do.</p>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{% block title %}{% endblock %} | {{ settings.title }}</title>
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen, projection">
+</head>
+<body>
+
+<div id="container">
+
+<!-- HEADER -->
+
+<div id="header">
+
+<span class="header-left">
+<h1><a href="/">{{ settings.title }}</a></h1>
+</span>
+
+<span class="header-right">
+{% if user %}
+{{ user.nickname }} &middot;
+{% endif %}
+<a href="{{ header_link }}">{{ header_text }}</a>
+</span>
+
+</div>
+
+<!-- CONTENT -->
+
+<div id="content">
+{% block content %}{% endblock %}
+</div>
+
+<!-- FOOTER -->
+
+<div id="footer">
+<p>
+<a href="/architecture">Architecture</a> &middot;
+<a href="/reference">Reference</a> &middot;
+<a href="/support">Support</a> &middot;
+&copy; <a href="http://www.worqbench.com/">Worqbench</a> 2010
+</p>
+</div>
+
+</div>
+
+</body>
+</html>

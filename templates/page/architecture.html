@@ -1,0 +1,29 @@
+{% extends "../base.html" %}
+
+{% block title %}Architecture{% endblock %}
+
+{% block content %}
+
+<h2>Architecture</h2>
+
+<br/>
+
+<div style="text-align:center;">
+<img src="/static/architecture.jpg"/>
+</div>
+
+<h3>Notes</h3>
+
+<p>1. Google App Engine acts as the scalable web front-end. They know better than me on how to scale user-facing web sites.</p>
+
+<p>2. Amazon EC2 instances act as the back-end servers that execute Node.js applications.</p>
+
+<p>3. The VPS from Prgmr acts as the Git server and manages the application deployment to the EC2 instances.</p>
+
+<p>4. The VPS (256MB) is a bottleneck. But I started the Worqshop development there and in the future I may need to upgrade it or move it to Amazon EC2. Alternatively, I could deploy Git on top of GAE (similar to GitFarm) or just use Github with webhooks. I think I may go with the latter.</p>
+
+<p>5. All HTTP requests to Node.js applications go through GAE. I want to keep the EC2 instances invisible to users.</p>
+
+<p>6. I spent about a week (after hours) to implement this. I didn't have the time to implement the web UI (it's very bare). Thus, interactions are done through API calls.</p>
+
+{% endblock %}
